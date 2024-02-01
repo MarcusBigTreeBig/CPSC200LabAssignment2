@@ -1,5 +1,6 @@
 import java.util.function.Predicate;
 import java.util.Comparator;
+import java.util.Random;
 public class Utilities {
 
     /**
@@ -63,5 +64,18 @@ public class Utilities {
             }
         }
         return true;
+    }
+
+    /**
+     * Randomly arranges an array
+     *
+     * @param rand a random object used for random number generation
+     * @param data the array to be randomized
+     * @param <E> the type of data in the array
+     */
+    public static <E> void shuffle (Random rand, E[] data) {
+        for (int i = data.length; i > 1; --i) {
+            swap (data, i-1, rand.nextInt(i));
+        }
     }
 }
