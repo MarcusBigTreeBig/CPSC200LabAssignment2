@@ -67,6 +67,30 @@ public class Utilities {
     }
 
     /**
+     * Partitions an array based on a pivot
+     *
+     * @param data the array being partitioned
+     * @param ell the start index of the part of the array being partitioned (inclusive)
+     * @param arr the start index of the part of the array being partitioned (exclusive)
+     * @param p Predicate containing a test method, that returns false if the element should be before the pivot, true
+     * @return
+     * @param <E>
+     */
+    public static <E> int partition (E[] data, int ell, int arr, Predicate<E> p) {
+        arr--;
+        for (int i = 0; i < data.length-2; i++) {
+            if (!p.test(data[ell])) {
+                ell++;
+            }else if (p.test(data[arr])) {
+                arr--;
+            }else{
+                swap(data, ell, arr);
+                i--;
+            }
+        }
+    }
+
+    /**
      * Randomly arranges an array
      *
      * @param rand a random object used for random number generation
