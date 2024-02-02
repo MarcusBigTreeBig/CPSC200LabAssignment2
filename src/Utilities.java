@@ -77,8 +77,9 @@ public class Utilities {
      * @param <E> the type of the data in the array
      */
     public static <E> int partition (E[] data, int ell, int arr, Predicate<E> p) {
+        int times = arr-ell-1;
         arr--;
-        for (int i = 0; i < data.length-2; i++) {
+        for (int i = 0; i < times; i++) {
             if (!p.test(data[ell])) {
                 ell++;
             }else if (p.test(data[arr])) {

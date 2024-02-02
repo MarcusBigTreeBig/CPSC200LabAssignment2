@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.function.Predicate;
 
 public class UtilitiesTester {
     public static void main (String[] args) {
@@ -17,6 +18,14 @@ public class UtilitiesTester {
             Utilities.shuffle(new Random(), data);
             printArr(data);
         }
+        Predicate<Integer> p = new Predicate<Integer>() {
+            @Override
+            public boolean test(Integer integer) {
+                return integer > 5;
+            }
+        };
+        System.out.println(Utilities.partition(data, 0, data.length, p));
+        printArr(data);
     }
 
     public static <E> void printArr (E[] arr) {
