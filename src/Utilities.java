@@ -73,8 +73,8 @@ public class Utilities {
      * @param ell the start index of the part of the array being partitioned (inclusive)
      * @param arr the start index of the part of the array being partitioned (exclusive)
      * @param p Predicate containing a test method, that returns false if the element should be before the pivot, true
-     * @return
-     * @param <E>
+     * @return the first index after the partition after the algorithm
+     * @param <E> the type of the data in the array
      */
     public static <E> int partition (E[] data, int ell, int arr, Predicate<E> p) {
         arr--;
@@ -88,6 +88,7 @@ public class Utilities {
                 i--;
             }
         }
+        return arr;
     }
 
     /**
