@@ -20,46 +20,60 @@ public class Utilities {
 
     /**
      * Checks if an array is sorted
-     * Elements of the array must extend comparable
+     * The object must extend Comparable to be checked
      *
-     * @param data the array to check if it sorted
-     * @return true if the data is sorted
+     * @param data the array to check
+     * @return true if the array is sorted
      * @param <E> the type of the data in the array
      */
     public static <E extends Comparable<? super E>> boolean isSorted (E[] data) {
-        for (int i = 0; i < data.length-1; i++) {
-            if (data[i].compareTo(data[i+1]) > 0) {
-                return false;
-            }
-        }
-        return true;
+        return isSorted(data, 0, data.length);
     }
 
     /**
-     * checks if 2 indices of an array are sorted
-     * elements of the array must extend comparable
+     * Checks if part of an array is sorted
+     * The object must extend Comparable to be checked
      *
-     * @param data the array to check if indices are sorted
-     * @param i the first index
-     * @param j the second index
-     * @return true if the first and second given indices are in the right order
+     * @param data the array to check
+     * @param i the start index of where is being checked (inclusive)
+     * @param j the end index of where is being checked (exclusive)
+     * @return true if the array is sorted
      * @param <E> the type of the data in the array
      */
     public static <E extends Comparable<? super E>> boolean isSorted (E[] data, int i, int j) {
-        return data[Math.min(i, j)].compareTo(data[Math.max(i, j)]) <= 0;
+        return isSorted(data, i, j, Comparator.naturalOrder());
     }
 
     /**
-     * Uses a Comparator to check if an array is sorted
+     * Checks if an array is sorted
      *
-     * @param data the array to check if it's sorted
-     * @param c the Comparator for the type of the data
+     * @param data the array to check
+     * @param c the comparator used compare 2 objects of the array
      * @return true if the array is sorted
      * @param <E> the type of the data in the array
      */
     public static <E> boolean isSorted (E[] data, Comparator<? super E> c) {
-        for (int i = 0; i < data.length-1; i++) {
-            if (c.compare(data[i], data[i+1]) > 0) {
+        return isSorted(data, 0, data.length, c);
+    }
+
+    /**
+     * Checks if part of an array is sorted
+     *
+     * @param data the array to check
+     * @param i the start index of where is being checked (inclusive)
+     * @param j the end index of where is being checked (exclusive)
+     * @param c the comparator used compare 2 objects of the array
+     * @return true if the array is sorted
+     * @param <E> the type of the data in the array
+     */
+    public static <E> boolean isSorted (E[] data, int i, int j, Comparator<? super E> c) {
+        for (int k = i; k < j-1; k++) {
+            if (c.compare(data[k], data[k+1]) > 0) {
+                /*
+                Loop Invariant:
+                [0, k) is sorted
+                if ever this is untrue, returns false
+                 */
                 return false;
             }
         }
@@ -77,16 +91,24 @@ public class Utilities {
      * @param <E> the type of the data in the array
      */
     public static <E> int partition (E[] data, int ell, int arr, Predicate<E> p) {
-        int times = arr-ell-1;
+        int length = arr-ell-1;
         arr--;
-        for (int i = 0; i < times; i++) {
+        int i = 0;
+        while (i < length) {
+            /*
+            Loop Invariants:
+            1. length = arr-ell+i
+            2. [0, ell) partitioned correctly, (arr, length] partitioned correctly
+             */
             if (!p.test(data[ell])) {
                 ell++;
+                i++;
             }else if (p.test(data[arr])) {
                 arr--;
+                i++;
             }else{
                 swap(data, ell, arr);
-                i--;
+                //don't increment here, because should only increment if moving arr or ell
             }
         }
         return arr;
