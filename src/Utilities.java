@@ -83,6 +83,14 @@ public class Utilities {
     /**
      * Partitions an array based on a pivot
      *
+     * This is different from the quicksort partition algorithm because
+     * the quicksort partition chooses an element from the array as the pivot, and places it in separation
+     * of the partition after partitioning is complete.
+     * This can be achieved with this algorithm by adding an element from the array to the predicate while creating
+     * the predicate, but this is not necessary in this algorithm.
+     * For the quicksort partitioning algorithm, choosing an element in the array as a pivot can introduce sentinels,
+     * which cannot be done with this algorithm.
+     *
      * @param data the array being partitioned
      * @param ell the start index of the part of the array being partitioned (inclusive)
      * @param arr the start index of the part of the array being partitioned (exclusive)
